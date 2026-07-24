@@ -1,0 +1,15 @@
+/Users/hristostefanov/Projects/documind/apps/api/src/DocuMind.Application/bin/Debug/net10.0/DocuMind.Application.deps.json
+/Users/hristostefanov/Projects/documind/apps/api/src/DocuMind.Application/bin/Debug/net10.0/DocuMind.Application.dll
+/Users/hristostefanov/Projects/documind/apps/api/src/DocuMind.Application/bin/Debug/net10.0/DocuMind.Application.pdb
+/Users/hristostefanov/Projects/documind/apps/api/src/DocuMind.Application/bin/Debug/net10.0/DocuMind.Domain.dll
+/Users/hristostefanov/Projects/documind/apps/api/src/DocuMind.Application/bin/Debug/net10.0/DocuMind.Domain.pdb
+/Users/hristostefanov/Projects/documind/apps/api/src/DocuMind.Application/obj/Debug/net10.0/DocuMind.Application.csproj.AssemblyReference.cache
+/Users/hristostefanov/Projects/documind/apps/api/src/DocuMind.Application/obj/Debug/net10.0/DocuMind.Application.GeneratedMSBuildEditorConfig.editorconfig
+/Users/hristostefanov/Projects/documind/apps/api/src/DocuMind.Application/obj/Debug/net10.0/DocuMind.Application.AssemblyInfoInputs.cache
+/Users/hristostefanov/Projects/documind/apps/api/src/DocuMind.Application/obj/Debug/net10.0/DocuMind.Application.AssemblyInfo.cs
+/Users/hristostefanov/Projects/documind/apps/api/src/DocuMind.Application/obj/Debug/net10.0/DocuMind.Application.csproj.CoreCompileInputs.cache
+/Users/hristostefanov/Projects/documind/apps/api/src/DocuMind.Application/obj/Debug/net10.0/DocuMind.6B6B6E4C.Up2Date
+/Users/hristostefanov/Projects/documind/apps/api/src/DocuMind.Application/obj/Debug/net10.0/DocuMind.Application.dll
+/Users/hristostefanov/Projects/documind/apps/api/src/DocuMind.Application/obj/Debug/net10.0/refint/DocuMind.Application.dll
+/Users/hristostefanov/Projects/documind/apps/api/src/DocuMind.Application/obj/Debug/net10.0/DocuMind.Application.pdb
+/Users/hristostefanov/Projects/documind/apps/api/src/DocuMind.Application/obj/Debug/net10.0/ref/DocuMind.Application.dll
