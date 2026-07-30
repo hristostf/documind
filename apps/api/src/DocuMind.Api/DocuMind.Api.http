@@ -1,6 +1,43 @@
-@DocuMind.Api_HostAddress = http://localhost:5191
+@host = http://localhost:5191
 
-GET {{DocuMind.Api_HostAddress}}/weatherforecast/
-Accept: application/json
 
 ###
+# Create Organization
+#
+
+POST {{host}}/api/organizations
+Content-Type: application/json
+
+{
+  "name": "DocuMind"
+}
+
+###
+# Get Organization
+#
+
+@organizationId = 13b77ae9-2444-4779-a319-1bdefa31dff0
+
+GET {{host}}/api/organizations/{{organizationId}}
+
+###
+# Create Workspace
+#
+
+POST {{host}}/api/organizations/{{organizationId}}/workspaces
+Content-Type: application/json
+
+{
+  "name": "Main Workspace"
+}
+
+###
+# Get Workspace
+#
+
+@workspaceId = 68cb5109-125f-4f63-8be0-831311cdc7af
+
+###
+# Get Workspace
+
+GET {{host}}/api/organizations/{{organizationId}}/workspaces/{{workspaceId}}

@@ -4,6 +4,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using DocuMind.Infrastructure.Organizations;
 using DocuMind.Application.Organizations;
+using DocuMind.Application.Workspaces;
+using DocuMind.Infrastructure.Workspaces;
 
 namespace DocuMind.Infrastructure;
 
@@ -22,6 +24,7 @@ public static class DependencyInjection
             options.UseNpgsql(connectionString));
 
         services.AddScoped<IOrganizationRepository, OrganizationRepository>();
+        services.AddScoped<IWorkspaceRepository, WorkspaceRepository>();
 
         return services;
     }
