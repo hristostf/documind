@@ -40,4 +40,16 @@ internal sealed class WorkspaceRepository(
                     workspace.OrganizationId == organizationId,
                 cancellationToken);
     }
+
+    public async Task<IReadOnlyList<Workspace>> ListByOrganizationIdAsync(
+        Guid organizationId,
+        CancellationToken cancellationToken = default)
+    {
+        return await dbContext.Workspaces
+                        .Where(workspace =>
+                            workspace.OrganizationId == organizationId)
+                        .OrderBy(workspace =>
+                            workspace.Name)
+                        .ToListAsync(cancellationToken);
+    }
 }

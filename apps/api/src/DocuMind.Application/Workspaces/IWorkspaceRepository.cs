@@ -15,4 +15,8 @@ public interface IWorkspaceRepository
         Guid id,
         Guid organizationId,
         CancellationToken cancellationToken = default);
+
+    Task<IReadOnlyList<Workspace>> ListByOrganizationIdAsync(
+        Guid organizationId,
+        CancellationToken cancellationToken = default);
 }

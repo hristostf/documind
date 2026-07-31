@@ -9,7 +9,7 @@ POST {{host}}/api/organizations
 Content-Type: application/json
 
 {
-  "name": "DocuMind"
+  "name": "   "
 }
 
 ###

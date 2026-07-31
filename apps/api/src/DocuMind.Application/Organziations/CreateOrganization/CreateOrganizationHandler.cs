@@ -1,26 +1,45 @@
-
+using DocuMind.Application.Organizations;
+using DocuMind.Application.Organizations.CreateOrganization;
 using DocuMind.Domain.Organizations;
 
-namespace DocuMind.Application.Organizations.CreateOrganization;
+namespace DocuMind.Application.Organziations.CreateOrganization;
 
 public sealed class CreateOrganizationHandler(
-    IOrganizationRepository repository)
+    IOrganizationRepository organizationRepository)
 {
-    public async Task<CreateOrganizationResult> HandleAsync(
+    private const int MaximumNameLength = 100;
+
+    public async Task<CreateOrganizationResponse> HandleAsync(
         CreateOrganizationCommand command,
         CancellationToken cancellationToken = default)
     {
+        var normalizedName = command.Name?.Trim();
+
+        if (string.IsNullOrWhiteSpace(normalizedName))
+        {
+            return CreateOrganizationResponse.Failure(
+                CreateOrganizationError.NameRequired);
+        }
+
+        if (normalizedName.Length > MaximumNameLength)
+        {
+            return CreateOrganizationResponse.Failure(
+                CreateOrganizationError.NameTooLong);
+        }
+
         var organization = new Organization(
             Guid.NewGuid(),
-            command.Name);
+            normalizedName);
 
-        await repository.AddAsync(
+        await organizationRepository.AddAsync(
             organization,
             cancellationToken);
 
-        return new CreateOrganizationResult(
+        var result = new CreateOrganizationResult(
             organization.Id,
             organization.Name,
             organization.CreatedAtUtc);
+
+        return CreateOrganizationResponse.Success(result);
     }
 }

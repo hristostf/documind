@@ -1,5 +1,6 @@
 using DocuMind.Application.Organizations.CreateOrganization;
 using DocuMind.Application.Organizations.GetOrganization;
+using DocuMind.Application.Organziations.CreateOrganization;
 
 namespace DocuMind.Api.Organizations;
 
@@ -22,20 +23,42 @@ public static class OrganizationEndpoints
         return app;
     }
 
-    private static async Task<IResult> CreateOrganizationAsync(
+private static async Task<IResult> CreateOrganizationAsync(
         CreateOrganizationRequest request,
         CreateOrganizationHandler handler,
         CancellationToken cancellationToken)
     {
-        var command = new CreateOrganizationCommand(request.Name);
+        var command = new CreateOrganizationCommand(
+            request.Name);
 
-        var result = await handler.HandleAsync(
+        var response = await handler.HandleAsync(
             command,
             cancellationToken);
 
-        return Results.Created(
-            $"/api/organizations/{result.Id}",
-            result);
+        return response.Error switch
+        {
+            CreateOrganizationError.None =>
+                Results.Created(
+                    $"/api/organizations/{response.Organization!.Id}",
+                    response.Organization),
+
+            CreateOrganizationError.NameRequired =>
+                Results.BadRequest(new
+                {
+                    error = "Organization name is required."
+                }),
+
+            CreateOrganizationError.NameTooLong =>
+                Results.BadRequest(new
+                {
+                    error = "Organization name cannot exceed 100 characters."
+                }),
+
+            _ =>
+                Results.Problem(
+                    statusCode: StatusCodes.Status500InternalServerError,
+                    detail: "An unexpected organization creation error occurred.")
+        };
     }
 
     private static async Task<IResult> GetOrganizationAsync(
