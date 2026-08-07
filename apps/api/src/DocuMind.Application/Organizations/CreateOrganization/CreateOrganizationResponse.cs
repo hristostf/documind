@@ -1,7 +1,6 @@
 
-using DocuMind.Application.Organizations.CreateOrganization;
 
-namespace DocuMind.Application.Organziations.CreateOrganization;
+namespace DocuMind.Application.Organizations.CreateOrganization;
 
 public sealed record CreateOrganizationResponse
 {

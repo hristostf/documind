@@ -1,6 +1,6 @@
 using DocuMind.Application.Organizations.CreateOrganization;
 using DocuMind.Application.Organizations.GetOrganization;
-using DocuMind.Application.Organziations.CreateOrganization;
+
 
 namespace DocuMind.Api.Organizations;
 

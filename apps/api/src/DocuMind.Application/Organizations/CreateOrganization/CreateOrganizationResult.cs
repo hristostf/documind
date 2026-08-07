@@ -1,4 +1,4 @@
-namespace DocuMind.Application.Organziations.CreateOrganization;
+namespace DocuMind.Application.Organizations.CreateOrganization;
 
 public sealed record CreateOrganizationResult(
     Guid Id,

@@ -1,8 +1,7 @@
-using DocuMind.Application.Organizations;
-using DocuMind.Application.Organizations.CreateOrganization;
+
 using DocuMind.Domain.Organizations;
 
-namespace DocuMind.Application.Organziations.CreateOrganization;
+namespace DocuMind.Application.Organizations.CreateOrganization;
 
 public sealed class CreateOrganizationHandler(
     IOrganizationRepository organizationRepository)

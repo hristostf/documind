@@ -1,6 +1,6 @@
 using System.Net;
 using System.Net.Http.Json;
-using DocuMind.Application.Organziations.CreateOrganization;
+using DocuMind.Application.Organizations.CreateOrganization;
 using DocuMind.IntegrationTests.Infrastructure;
 
 namespace DocuMind.IntegrationTests.Organizations;

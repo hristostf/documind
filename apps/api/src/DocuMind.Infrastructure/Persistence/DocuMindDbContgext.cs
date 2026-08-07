@@ -1,6 +1,7 @@
 using DocuMind.Domain.Organizations;
 using DocuMind.Domain.Workspaces;
 using Microsoft.EntityFrameworkCore;
+using DocuMind.Domain.Documents;
 
 namespace DocuMind.Infrastructure.Persistence;
 
@@ -13,6 +14,9 @@ public sealed class DocuMindDbContext(
 
     public DbSet<Workspace> Workspaces =>
         Set<Workspace>();
+  
+    public DbSet<Document> Documents => 
+        Set<Document>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
