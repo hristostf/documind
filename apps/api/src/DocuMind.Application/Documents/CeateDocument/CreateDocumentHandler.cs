@@ -3,13 +3,15 @@
 using DocuMind.Application.Workspaces;
 using DocuMind.Domain.Documents;
 using DocuMind.Application.Storage;
+using DocuMind.Application.Documents.Processing;
 namespace DocuMind.Application.Documents.CreateDocument;
 
 
 public sealed class CreateDocumentHandler(
     IWorkspaceRepository workspaceRepository,
     IDocumentRepository documentRepository,
-    IFileStorage fileStorage)
+    IFileStorage fileStorage,
+    IDocumentProcessingQueue processingQueue)
 {
   
     public async Task<CreateDocumentResponse> HandleAsync(
@@ -76,6 +78,10 @@ public sealed class CreateDocumentHandler(
 
         await documentRepository.AddAsync(
             document,
+            cancellationToken);
+
+        await processingQueue.EnqueueAsync(
+            document.Id,
             cancellationToken);
 
         var result = new CreateDocumentResult(

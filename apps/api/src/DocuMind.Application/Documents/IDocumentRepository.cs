@@ -18,4 +18,8 @@ public interface IDocumentRepository
         Guid workspaceId,
         CancellationToken cancellationToken = default);
 
+    Task UpdateAsync(
+        Document document,
+        CancellationToken cancellationToken = default);
+
 }

@@ -95,4 +95,38 @@ public sealed class Document
     public DateTime CreatedAtUtc { get; private set; }
 
     public string StorageKey { get; private set; } = string.Empty;
+
+
+    public void StartProcessing()
+    {
+        if (Status != DocumentStatus.Uploaded)
+        {
+            throw new InvalidOperationException(
+                $"Cannot start processing document in {Status} status.");
+        }
+
+        Status = DocumentStatus.Processing;
+    }
+
+    public void MarkAsReady()
+    {
+        if (Status != DocumentStatus.Processing)
+        {
+            throw new InvalidOperationException(
+                $"Cannot mark document as ready from {Status} status.");
+        }
+
+        Status = DocumentStatus.Ready;
+    }
+
+    public void MarkAsFailed()
+    {
+        if (Status != DocumentStatus.Processing)
+        {
+            throw new InvalidOperationException(
+                $"Cannot mark document as failed from {Status} status.");
+        }
+
+        Status = DocumentStatus.Failed;
+    }
 }

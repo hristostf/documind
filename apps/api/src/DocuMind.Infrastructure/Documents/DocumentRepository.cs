@@ -43,4 +43,14 @@ internal sealed class DocumentRepository(
             .ToListAsync(cancellationToken);
     }
 
+    public async Task UpdateAsync(
+        Document document,
+        CancellationToken cancellationToken = default)
+    {
+        dbContext.Documents.Update(document);
+
+        await dbContext.SaveChangesAsync(
+            cancellationToken);
+    }
+
 }
