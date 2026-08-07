@@ -4,36 +4,55 @@ using DocuMind.Application.Documents.Processing;
 namespace DocuMind.Infrastructure.Documents.Processing;
 
 internal sealed class DocumentProcessor(
-    IDocumentRepository documentRepository)
+    IDocumentRepository documentRepository,
+      IDocumentTextExtractor textExtractor)
     : IDocumentProcessor
 {
     public async Task ProcessAsync(
         Guid documentId,
         CancellationToken cancellationToken = default)
     {
+
         var document = await documentRepository.GetByIdAsync(
-            documentId,
-            cancellationToken);
+                documentId,
+                cancellationToken);
 
         if (document is null)
         {
             return;
         }
 
-        document.StartProcessing();
+        try
+        {
+            document.StartProcessing();
 
-        await documentRepository.UpdateAsync(
-            document,
-            cancellationToken);
+            await documentRepository.UpdateAsync(
+                document,
+                cancellationToken);
 
-        await Task.Delay(
-            TimeSpan.FromSeconds(2),
-            cancellationToken);
+            var text = await textExtractor.ExtractTextAsync(
+                    document.StorageKey,
+                    cancellationToken);
 
-        document.MarkAsReady();
+                Console.WriteLine(
+                    $"Extracted {text.Length} characters from document {document.Id}");
 
-        await documentRepository.UpdateAsync(
-            document,
-            cancellationToken);
+
+            document.MarkAsReady();
+
+            await documentRepository.UpdateAsync(
+                document,
+                cancellationToken);
+
+        } catch
+        {
+            document.MarkAsFailed();
+
+            await documentRepository.UpdateAsync(
+                document,
+                cancellationToken);
+
+            throw;
+        }
     }
 }
