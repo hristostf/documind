@@ -9,4 +9,5 @@ public sealed record CreateDocumentCommand(
     string Name,
     string OriginalFileName,
     string ContentType,
-    long SizeInBytes);
+    long SizeInBytes,
+    Stream Content);

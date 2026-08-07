@@ -8,6 +8,8 @@ using DocuMind.Application.Workspaces;
 using DocuMind.Infrastructure.Workspaces;
 using DocuMind.Application.Documents;
 using DocuMind.Infrastructure.Documents;
+using DocuMind.Application.Storage;
+using DocuMind.Infrastructure.Storage;
 
 namespace DocuMind.Infrastructure;
 
@@ -28,7 +30,8 @@ public static class DependencyInjection
         services.AddScoped<IOrganizationRepository, OrganizationRepository>();
         services.AddScoped<IWorkspaceRepository, WorkspaceRepository>();
         services.AddScoped<IDocumentRepository, DocumentRepository>();
-
+        services.AddScoped<IFileStorage, LocalFileStorage>();
+        
         return services;
     }
 }

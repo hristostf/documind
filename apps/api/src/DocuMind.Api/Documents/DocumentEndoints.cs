@@ -40,13 +40,18 @@ public static class DocumentEndpoints
         CreateDocumentHandler handler,
         CancellationToken cancellationToken)
     {
+
+    await using var content =
+        request.File.OpenReadStream();
+
     var command = new CreateDocumentCommand(
         organizationId,
         workspaceId,
         request.Name ?? Path.GetFileNameWithoutExtension(request.File.FileName),
         request.File.FileName,
         request.File.ContentType,
-        request.File.Length);
+        request.File.Length,
+        content);
 
         var response = await handler.HandleAsync(
             command,

@@ -2,13 +2,14 @@
 
 using DocuMind.Application.Workspaces;
 using DocuMind.Domain.Documents;
-
+using DocuMind.Application.Storage;
 namespace DocuMind.Application.Documents.CreateDocument;
 
 
 public sealed class CreateDocumentHandler(
     IWorkspaceRepository workspaceRepository,
-    IDocumentRepository documentRepository)
+    IDocumentRepository documentRepository,
+    IFileStorage fileStorage)
 {
   
     public async Task<CreateDocumentResponse> HandleAsync(
@@ -59,13 +60,19 @@ public sealed class CreateDocumentHandler(
                     CreateDocumentError.WorkspaceNotFound);
         }
 
+        var storageKey = await fileStorage.SaveAsync(
+            command.Content,
+            normalizedOriginalFileName,
+            cancellationToken);
+
         var document = new Document(
             Guid.NewGuid(),
             command.WorkspaceId,
             normalizedName,
             normalizedOriginalFileName,
             normalizedContentType,
-            command.SizeInBytes);
+            command.SizeInBytes,
+            storageKey);
 
         await documentRepository.AddAsync(
             document,

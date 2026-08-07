@@ -13,7 +13,8 @@ public sealed class Document
         string name,
         string originalFileName,
         string contentType,
-        long sizeInBytes)
+        long sizeInBytes,
+        string storageKey)
     {
         if(id == Guid.Empty)
         {
@@ -59,12 +60,20 @@ public sealed class Document
                 "Size in bytes must be greater than zero.");
         }
 
+        if (string.IsNullOrWhiteSpace(storageKey))
+        {
+            throw new ArgumentException(
+                "Storage key cannot be null or whitespace.",
+                nameof(storageKey));
+        }
+
         Id = id;
         WorkspaceId = workspaceId;
         Name = name.Trim();
         OriginalFileName = originalFileName.Trim();
         ContentType = contentType.Trim();
         SizeInBytes = sizeInBytes;
+        StorageKey = storageKey.Trim();
         Status = DocumentStatus.Uploaded;
         CreatedAtUtc = DateTime.UtcNow;
     }
@@ -84,4 +93,6 @@ public sealed class Document
     public DocumentStatus Status { get; private set; }
 
     public DateTime CreatedAtUtc { get; private set; }
+
+    public string StorageKey { get; private set; } = string.Empty;
 }

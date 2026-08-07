@@ -41,5 +41,9 @@ internal sealed class DocumentConfiguration
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasIndex(x => x.WorkspaceId);
+
+        builder.Property(x => x.StorageKey)
+            .HasMaxLength(500)
+            .IsRequired();
     }
 }
