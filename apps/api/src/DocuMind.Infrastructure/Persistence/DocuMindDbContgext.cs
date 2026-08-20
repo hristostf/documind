@@ -18,6 +18,9 @@ public sealed class DocuMindDbContext(
     public DbSet<Document> Documents => 
         Set<Document>();
 
+    public DbSet<DocumentChunk> DocumentChunks =>
+        Set<DocumentChunk>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(

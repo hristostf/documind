@@ -37,6 +37,7 @@ public static class DependencyInjection
         services.AddScoped<IDocumentProcessor, DocumentProcessor>();
         services.AddHostedService<DocumentProcessingWorker>();
         services.AddScoped<IDocumentTextExtractor, PdfDocumentTextExtractor>();
+        services.AddScoped<IDocumentChunkRepository, DocumentChunkRepository>();
         
         return services;
     }
