@@ -1,7 +1,9 @@
 
+using DocuMind.Application.Documents.Ask;
 using DocuMind.Application.Documents.CreateDocument;
 using DocuMind.Application.Documents.GetDocument;
 using DocuMind.Application.Documents.ListDocuments;
+using DocuMind.Application.Documents.Search;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DocuMind.Api.Documents;
@@ -23,11 +25,17 @@ public static class DocumentEndpoints
             "",
             ListDocumentsAsync);
             
+        group.MapGet(
+            "/{documentId:guid}",
+            GetDocumentAsync);
 
         group.MapGet(
-        "/{documentId:guid}",
-        GetDocumentAsync);
+            "/search",
+            SearchDocumentsAsync);
 
+        group.MapGet(
+            "/ask",
+            AskDocumentsAsync);
 
         return app;
     }
@@ -138,6 +146,53 @@ public static class DocumentEndpoints
 
         return result is null
             ? Results.NotFound()
+            : Results.Ok(result);
+    }
+
+    private static async Task<IResult> SearchDocumentsAsync(
+        Guid organizationId,
+        Guid workspaceId,
+        string query,
+        int limit,
+        SearchDocumentsHandler handler,
+        CancellationToken cancellationToken)
+    {
+        var searchQuery = new SearchDocumentsQuery(
+            organizationId,
+            workspaceId,
+            query,
+            limit);
+
+        var results = await handler.HandleAsync(
+            searchQuery,
+            cancellationToken);
+
+        return Results.Ok(results);
+    }
+
+    private static async Task<IResult> AskDocumentsAsync(
+    Guid organizationId,
+    Guid workspaceId,
+    string question,
+    int limit,
+    AskDocumentsHandler handler,
+    CancellationToken cancellationToken)
+    {
+        var query = new AskDocumentsQuery(
+            organizationId,
+            workspaceId,
+            question,
+            limit);
+
+        var result = await handler.HandleAsync(
+            query,
+            cancellationToken);
+
+        return result is null
+            ? Results.NotFound(new
+            {
+                error = "Workspace not found."
+            })
             : Results.Ok(result);
     }
 

@@ -4,6 +4,8 @@ api:
 api-watch:
 	dotnet watch --project apps/api/src/DocuMind.Api
 
+api-build:
+	dotnet build apps/api
 db-up:
 	docker compose up -d
 
@@ -12,6 +14,7 @@ db-down:
 
 web:
 	cd apps/web && npm run dev
+
 
 migration:
 	dotnet ef migrations add $(name) \

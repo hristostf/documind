@@ -13,6 +13,8 @@ using DocuMind.Application.Storage;
 using DocuMind.Infrastructure.Storage;
 using DocuMind.Application.Documents.Processing;
 using DocuMind.Infrastructure.Documents.Processing;
+using DocuMind.Application.Documents.Search;
+using DocuMind.Application.Documents.Ask;
 namespace DocuMind.Infrastructure;
 
 public static class DependencyInjection
@@ -28,8 +30,6 @@ public static class DependencyInjection
 
         services.Configure<OpenAiOptions>(
             configuration.GetSection(OpenAiOptions.SectionName));
-
-  
 
         services.AddDbContext<DocuMindDbContext>(options =>
             options.UseNpgsql(
@@ -48,7 +48,9 @@ public static class DependencyInjection
         services.AddScoped<ITextChunker, TextChunker>();
         services.AddScoped<IEmbeddingGenerator, OpenAiEmbeddingGenerator>();
         services.AddScoped<IDocumentChunkEmbeddingRepository, DocumentChunkEmbeddingRepository>();
-        
+        services.AddScoped<IDocumentSearchRepository, DocumentSearchRepository>();
+        services.AddScoped<IAnswerGenerator, OpenAiAnswerGenerator>();
+
         return services;
     }
 }

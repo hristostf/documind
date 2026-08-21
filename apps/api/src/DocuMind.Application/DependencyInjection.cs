@@ -7,6 +7,8 @@ using DocuMind.Application.Workspaces.ListWorkspaces;
 using Microsoft.Extensions.DependencyInjection;
 using DocuMind.Application.Documents.GetDocument;
 using DocuMind.Application.Documents.ListDocuments;
+using DocuMind.Application.Documents.Search;
+using DocuMind.Application.Documents.Ask;
 
 namespace DocuMind.Application;
 
@@ -25,7 +27,8 @@ public static class DependencyInjection
         services.AddScoped<CreateDocumentHandler>();
         services.AddScoped<GetDocumentHandler>();
         services.AddScoped<ListDocumentsHandler>();
-        
+        services.AddScoped<SearchDocumentsHandler>();
+        services.AddScoped<AskDocumentsHandler>();
         return services;
     }
 }
