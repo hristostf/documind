@@ -2,6 +2,7 @@ using DocuMind.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using DocuMind.Infrastructure.AI;
 using DocuMind.Infrastructure.Organizations;
 using DocuMind.Application.Organizations;
 using DocuMind.Application.Workspaces;
@@ -12,7 +13,6 @@ using DocuMind.Application.Storage;
 using DocuMind.Infrastructure.Storage;
 using DocuMind.Application.Documents.Processing;
 using DocuMind.Infrastructure.Documents.Processing;
-
 namespace DocuMind.Infrastructure;
 
 public static class DependencyInjection
@@ -26,8 +26,15 @@ public static class DependencyInjection
             ?? throw new InvalidOperationException(
                 "Connection string 'Database' was not found.");
 
+        services.Configure<OpenAiOptions>(
+            configuration.GetSection(OpenAiOptions.SectionName));
+
+  
+
         services.AddDbContext<DocuMindDbContext>(options =>
-            options.UseNpgsql(connectionString));
+            options.UseNpgsql(
+                connectionString,
+                npgsqlOptions => npgsqlOptions.UseVector()));
 
         services.AddScoped<IOrganizationRepository, OrganizationRepository>();
         services.AddScoped<IWorkspaceRepository, WorkspaceRepository>();
@@ -38,6 +45,9 @@ public static class DependencyInjection
         services.AddHostedService<DocumentProcessingWorker>();
         services.AddScoped<IDocumentTextExtractor, PdfDocumentTextExtractor>();
         services.AddScoped<IDocumentChunkRepository, DocumentChunkRepository>();
+        services.AddScoped<ITextChunker, TextChunker>();
+        services.AddScoped<IEmbeddingGenerator, OpenAiEmbeddingGenerator>();
+        services.AddScoped<IDocumentChunkEmbeddingRepository, DocumentChunkEmbeddingRepository>();
         
         return services;
     }

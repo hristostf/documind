@@ -55,5 +55,4 @@ public sealed class DocumentChunk
     public int Index { get; private set; }
     public string Content { get; private set; } = null!;
     public DateTime CreatedAtUtc { get; private set; }
-
 }

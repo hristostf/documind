@@ -3,7 +3,7 @@ using DocuMind.Api.Documents;
 using DocuMind.Api.Organizations;
 using DocuMind.Api.Workspaces;
 using DocuMind.Application;
-
+using DocuMind.Application.Documents.Processing;
 using DocuMind.Infrastructure;
 using DocuMind.Infrastructure.Configuration;
 
@@ -26,6 +26,7 @@ app.UseHttpsRedirection();
 app.MapOrganizationEndpoints();
 app.MapWorkspaceEndpoints();
 app.MapDocumentEndpoints();
+
 app.Run();
 
 public partial class Program;

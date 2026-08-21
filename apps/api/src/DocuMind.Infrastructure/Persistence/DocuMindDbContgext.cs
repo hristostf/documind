@@ -2,6 +2,7 @@ using DocuMind.Domain.Organizations;
 using DocuMind.Domain.Workspaces;
 using Microsoft.EntityFrameworkCore;
 using DocuMind.Domain.Documents;
+using DocuMind.Infrastructure.Persistence.Entities;
 
 namespace DocuMind.Infrastructure.Persistence;
 
@@ -21,8 +22,12 @@ public sealed class DocuMindDbContext(
     public DbSet<DocumentChunk> DocumentChunks =>
         Set<DocumentChunk>();
 
+    internal DbSet<DocumentChunkEmbedding> DocumentChunkEmbeddings =>
+        Set<DocumentChunkEmbedding>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        
         modelBuilder.ApplyConfigurationsFromAssembly(
             typeof(DocuMindDbContext).Assembly);
 

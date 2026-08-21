@@ -1,11 +1,16 @@
 using DocuMind.Application.Documents;
 using DocuMind.Application.Documents.Processing;
+using DocuMind.Domain.Documents;
 
 namespace DocuMind.Infrastructure.Documents.Processing;
 
 internal sealed class DocumentProcessor(
     IDocumentRepository documentRepository,
-      IDocumentTextExtractor textExtractor)
+    IDocumentTextExtractor textExtractor,
+    ITextChunker textChunker,
+    IDocumentChunkRepository documentChunkRepository,
+    IEmbeddingGenerator embeddingGenerator,
+    IDocumentChunkEmbeddingRepository embeddingRepository)
     : IDocumentProcessor
 {
     public async Task ProcessAsync(
@@ -34,8 +39,32 @@ internal sealed class DocumentProcessor(
                     document.StorageKey,
                     cancellationToken);
 
-                Console.WriteLine(
-                    $"Extracted {text.Length} characters from document {document.Id}");
+            var chunkContents = textChunker.Chunk(text);
+
+            var chunks = chunkContents
+                .Select((content, index) =>
+                    new DocumentChunk(
+                        Guid.NewGuid(),
+                        documentId,
+                        index,
+                        content))
+                .ToList();
+
+            await documentChunkRepository.AddRangeAsync(
+                chunks,
+                cancellationToken);
+
+            foreach (var chunk in chunks)
+            {
+                var embedding = await embeddingGenerator.GenerateAsync(
+                    chunk.Content,
+                    cancellationToken);
+
+                await embeddingRepository.AddAsync(
+                    chunk.Id,
+                    embedding,
+                    cancellationToken);
+            }
 
 
             document.MarkAsReady();
